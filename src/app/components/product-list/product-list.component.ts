@@ -11,11 +11,10 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductListComponent implements OnInit {
   products : Product[] = [] ;
-  currentCategoryId : number   = 1 ;
+  currentCategoryId : any  = 1 ;
 
-  constructor(
-    private productService : ProductService,
-    private route : ActivatedRoute){}
+  constructor( private productService : ProductService, private route : ActivatedRoute)
+  {}
   ngOnInit(): void {
     this.route.paramMap.subscribe(
       ()=> {this.listProducts();}
@@ -26,14 +25,15 @@ export class ProductListComponent implements OnInit {
     const hasCategoryId : boolean = this.route.snapshot.paramMap.has('id');
     if(hasCategoryId)
     {
-      this.currentCategoryId = +this.route.snapshot.paramMap.get('id') ;
+      this.currentCategoryId = this.route.snapshot.paramMap.get('id') ;
     }
     else {
 
+      this.currentCategoryId = 1;
 
 
     }
-    this.productService.getAllProduct().subscribe
+    this.productService.getAllProduct(this.currentCategoryId).subscribe
     (
      data => this.products = data
     );
