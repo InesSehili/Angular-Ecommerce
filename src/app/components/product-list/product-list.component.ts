@@ -10,33 +10,57 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  products : Product[] = [] ;
-  currentCategoryId : any  = 1 ;
+  products: Product[] = [];
+  currentCategoryId: any = 1;
+  searchMode: boolean = false ;
 
-  constructor( private productService : ProductService, private route : ActivatedRoute)
-  {}
+  constructor(private productService: ProductService, private route: ActivatedRoute) { }
   ngOnInit(): void {
     this.route.paramMap.subscribe(
-      ()=> {this.listProducts();}
+      () => { this.listProducts(); }
     );
-   
+
   }
-  listProducts(){
-    const hasCategoryId : boolean = this.route.snapshot.paramMap.has('id');
-    if(hasCategoryId)
-    {
-      this.currentCategoryId = this.route.snapshot.paramMap.get('id') ;
-    }
+  listProducts() {
+
+
+    this.searchMode = this.route.snapshot.paramMap.has('keyword');
+    if ( this.searchMode)
+    {this.handleSearchProducts();}
     else {
-
-      this.currentCategoryId = 1;
-
-
+      this.handleListProducts();
     }
-    this.productService.getAllProduct(this.currentCategoryId).subscribe
-    (
-     data => this.products = data
-    );
+    
+    }
+  handleSearchProducts() {
+    const theKeyword : string = this.route.snapshot.paramMap.get('keyword')!;
+ this.productService.getProductByName(theKeyword).subscribe(
+  data => {this.products = data;}
+ )
+ 
+  }
+  
+  
+  handleListProducts(){
+
+    const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
+    if (hasCategoryId) {
+      this.currentCategoryId = this.route.snapshot.paramMap.get('id');
+      this.productService.getAllProduct(this.currentCategoryId).subscribe
+      (
+        data => this.products = data
+      );
+    }
+    
+    else {
+      this.currentCategoryId = 1;
+      this.productService.getAllProduct(this.currentCategoryId).subscribe
+      (
+        data => this.products = data
+      );
+    }
+
+
   }
 
 }
