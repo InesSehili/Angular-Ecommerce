@@ -34,6 +34,11 @@ export class ProductService {
       map(response => response._embedded.products));
     
   }
+  getProductById(id : number) : Observable <Product>{
+
+    return this.httpClient.get<Product>( `${this.baseUrl}/${id}`);
+    
+  }
   
 }
 
@@ -42,6 +47,7 @@ interface GetResponse {
     products : Product[];
   }
 }
+
 interface GetResponse2 {
   _embedded : {
     productCategory : ProductCategory[];
