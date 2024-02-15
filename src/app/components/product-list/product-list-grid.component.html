@@ -2,6 +2,8 @@
     <div class="section-content section-content-p30">
         <div class="container-fluid">
             <div class="row row align-items-end ">
+
+
                 <div *ngFor=" let p of products "   class="col-md-3">
                     <div class="product-box">
                         <a routerLink="/products/{{p.id}}">
@@ -21,6 +23,36 @@
                     No products found.
                 </div>
             </div>
+            <!-- begin footer -->
+            <div class="footer-pagination">
+                <div class="row">
+                    <div class="col-md-6">
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                        <div class="col-md-9" style="padding-left:30%">
+                        
+                        <ngb-pagination></ngb-pagination>
+                        
+                        </div>
+                             
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+
+            
+
+            </div>
+
+<!-- end footer -->
+
         </div>
+
     </div>
 </div>
