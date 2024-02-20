@@ -40,10 +40,16 @@ export class ProductListComponent implements OnInit {
     }
   handleSearchProducts() {
     const theKeyword : string = this.route.snapshot.paramMap.get('keyword')!;
- this.productService.getProductByName(theKeyword).subscribe(
-  data => {this.products = data;}
- )
+ this.productService.searchProductsPaginate(theKeyword, this.thePageNumber, this.thePageNumber).subscribe(this.processResult());
  
+  }
+  processResult() {
+   return (data : any)=>{
+    this.products = data._embedded.products;
+    this.thePageNumber = data.page.number+1;
+    this.thePageSize = data.page.size;
+    this.theTotalElements = data.page.totalElements;
+   };
   }
   
   
